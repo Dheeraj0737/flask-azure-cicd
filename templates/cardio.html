@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="margin-bottom: 24px;">Log Cardio Session 🏃</h2>
+<div class="card" style="max-width: 560px;">
+    <form method="POST">
+        <div class="form-group">
+            <label>Type</label>
+            <select name="cardio_type" required>
+                <option value="">Select type</option>
+                <option value="Running">Running</option>
+                <option value="Cycling">Cycling</option>
+                <option value="Swimming">Swimming</option>
+                <option value="Rowing">Rowing</option>
+                <option value="Walking">Walking</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Distance (km)</label>
+            <input type="number" step="0.1" name="distance" placeholder="e.g. 5.5" required>
+        </div>
+        <div class="form-group">
+            <label>Duration (minutes)</label>
+            <input type="number" name="duration" placeholder="e.g. 30" required>
+        </div>
+        <div class="form-group">
+            <label>Notes</label>
+            <textarea name="notes" rows="3" placeholder="How did it go?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-blue">Save Session</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="margin-bottom: 24px;">Dashboard 📊</h2>
+
+<!-- Stats -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px;">
+    <div class="card" style="text-align:center;">
+        <div style="font-size: 36px; font-weight: 700; color: #00d4aa;">{{ total_strength_sessions }}</div>
+        <div style="color: #aaa; margin-top: 6px;">Strength Sessions</div>
+    </div>
+    <div class="card" style="text-align:center;">
+        <div style="font-size: 36px; font-weight: 700; color: #3b82f6;">{{ total_cardio_sessions }}</div>
+        <div style="color: #aaa; margin-top: 6px;">Cardio Sessions</div>
+    </div>
+    <div class="card" style="text-align:center;">
+        <div style="font-size: 36px; font-weight: 700; color: #f59e0b;">{{ total_cardio_distance }} km</div>
+        <div style="color: #aaa; margin-top: 6px;">Total Distance</div>
+    </div>
+</div>
+
+<!-- Strength Logs -->
+<h3 style="margin-bottom: 16px; color: #00d4aa;">Strength Log 💪</h3>
+{% if strength_logs %}
+<div class="card" style="margin-bottom: 40px; overflow-x: auto;">
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 1px solid #2a2a2a; color: #aaa; font-size: 14px;">
+                <th style="padding: 10px; text-align:left;">Exercise</th>
+                <th style="padding: 10px; text-align:left;">Sets</th>
+                <th style="padding: 10px; text-align:left;">Reps</th>
+                <th style="padding: 10px; text-align:left;">Weight</th>
+                <th style="padding: 10px; text-align:left;">Notes</th>
+                <th style="padding: 10px; text-align:left;">Date</th>
+                <th style="padding: 10px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in strength_logs %}
+            <tr style="border-bottom: 1px solid #1f1f1f;">
+                <td style="padding: 12px; font-weight: 600;">{{ log.exercise }}</td>
+                <td style="padding: 12px;">{{ log.sets }}</td>
+                <td style="padding: 12px;">{{ log.reps }}</td>
+                <td style="padding: 12px;">{{ log.weight }} kg</td>
+                <td style="padding: 12px; color: #aaa;">{{ log.notes }}</td>
+                <td style="padding: 12px; color: #aaa; font-size: 13px;">{{ log.date.strftime('%d %b %Y') }}</td>
+                <td style="padding: 12px;">
+                    <a href="/delete/strength/{{ log.id }}" class="btn btn-red" onclick="return confirm('Delete this log?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p style="color:#aaa; margin-bottom: 40px;">No strength sessions logged yet. <a href="/strength" style="color:#00d4aa">Log one now!</a></p>
+{% endif %}
+
+<!-- Cardio Logs -->
+<h3 style="margin-bottom: 16px; color: #3b82f6;">Cardio Log 🏃</h3>
+{% if cardio_logs %}
+<div class="card" style="overflow-x: auto;">
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 1px solid #2a2a2a; color: #aaa; font-size: 14px;">
+                <th style="padding: 10px; text-align:left;">Type</th>
+                <th style="padding: 10px; text-align:left;">Distance</th>
+                <th style="padding: 10px; text-align:left;">Duration</th>
+                <th style="padding: 10px; text-align:left;">Pace</th>
+                <th style="padding: 10px; text-align:left;">Notes</th>
+                <th style="padding: 10px; text-align:left;">Date</th>
+                <th style="padding: 10px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in cardio_logs %}
+            <tr style="border-bottom: 1px solid #1f1f1f;">
+                <td style="padding: 12px; font-weight: 600;">{{ log.cardio_type }}</td>
+                <td style="padding: 12px;">{{ log.distance }} km</td>
+                <td style="padding: 12px;">{{ log.duration }} min</td>
+                <td style="padding: 12px;">{{ (log.duration / log.distance)|round(1) }} min/km</td>
+                <td style="padding: 12px; color: #aaa;">{{ log.notes }}</td>
+                <td style="padding: 12px; color: #aaa; font-size: 13px;">{{ log.date.strftime('%d %b %Y') }}</td>
+                <td style="padding: 12px;">
+                    <a href="/delete/cardio/{{ log.id }}" class="btn btn-red" onclick="return confirm('Delete this log?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p style="color:#aaa;">No cardio sessions logged yet. <a href="/cardio" style="color:#3b82f6">Log one now!</a></p>
+{% endif %}
+{% endblock %}
